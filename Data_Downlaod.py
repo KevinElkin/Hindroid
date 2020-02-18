@@ -206,7 +206,7 @@ def random_sampler(filename, k):
     return sample
 
 
-    def getDownloadLinks(catagories, num, path):
+def getDownloadLinks(catagories, num, path):
 
     '''
     Get the link to the downloads page for apk on the main page.
@@ -261,8 +261,7 @@ def random_sampler(filename, k):
     return dLinks
 
 
-
-    def downloadAPK(catagories, num, path):
+def downloadAPK(catagories, num, path):
 
     '''
     A method designed to get the links to download the APK of a given
