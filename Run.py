@@ -23,12 +23,16 @@ import pathlib
 import re
 
 '''
-***Note: I a currently still creating the run.py file in the form it was supossed to 
+***Note: I a currently still creating the run.py file in the form it was supposed to
 be in for Assignment 2. Despite this, all other tasks have been properly completed in full.
-I have sucsessfully completed the EDA and created and tested a variety of different models
-on my findings from my EDA. Additinally, all 4 of the Matricies (MatrixA, MatrixB, MatrixP, and MatrixI)
-have been implemented sucsessfully and work as intended. I look forward to attenting office hours to ask
+I have successfully completed the EDA and created and tested a variety of different models
+on my findings from my EDA. Additionally, all 4 of the Matrices (MatrixA, MatrixB, MatrixP, and MatrixI)
+have been implemented successfully and work as intended. I look forward to attending office hours to ask
 questions and get feedback on what I have done thus far.
+
+Also, I do realize that much of this code is redundant and definitely needs to be modularized - I am working on that
+continuously. I have changed up my implementation(s) and approaches multiple times and it definitely shows through the
+current state of my code. 
 '''
 
 PATH = '/Users/kelkin/Documents/DSC_180A/APK_Downloads/'
