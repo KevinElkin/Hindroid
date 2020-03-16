@@ -1,2 +1,5 @@
-
-{}
+{
+    "sitemap": "https://apkpure.com/sitemap.xml",
+    "catagories": ["weather"],
+    "sampleSize": 15
+}
