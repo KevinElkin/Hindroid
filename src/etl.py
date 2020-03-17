@@ -39,7 +39,7 @@ Go back one directory and then return the current working directory
 def findDir():
     os.chdir('..')
     return os.getcwd()
-s
+
 '''
 A method that creates the necessary file structure that will be used to
 store the APK downloads
