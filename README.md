@@ -15,7 +15,7 @@ PROJECT
 ├── .gitignore
 ├── README.md
 ├── config
-│   ├── data-params.json
+│   ├── data-params-apk.json
 │   ├── test-params.json
 │   └── env.json
 ├── data
@@ -47,7 +47,7 @@ PROJECT
 
 ### `config`
 
-* `data-params.json`: Common parameters for getting data, serving as
+* `data-params-apk.json`: Common parameters for getting data, serving as
   inputs to library code.
   
 * `test-params.json`: Parameters for running small process on small
