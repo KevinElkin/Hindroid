@@ -18,8 +18,6 @@ PROJECT
 │   ├── data-params-apk.json
 │   ├── test-params.json
 │   └── env.json
-├── data
-│   └── apks
 ├── notebooks
 │   └── EDA_and_Baseline.ipynb
 ├── references
