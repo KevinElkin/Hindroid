@@ -19,8 +19,7 @@ PROJECT
 │   ├── test-params.json
 │   └── env.json
 ├── data
-│   ├── apks
-│   └── smalis
+│   └── apks
 ├── notebooks
 │   └── .gitkeep
 ├── references
