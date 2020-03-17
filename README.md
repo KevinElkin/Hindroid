@@ -21,7 +21,7 @@ PROJECT
 ├── data
 │   └── apks
 ├── notebooks
-│   └── .gitkeep
+│   └── EDA_and_Baseline.ipynb
 ├── references
 │   └── Hindroid.pdf
 ├── requirements.txt
@@ -60,9 +60,7 @@ PROJECT
 
 ### `notebooks`
 
-* Jupyter notebooks for *analyses*
-  - notebooks are not for data processing; they should import code
-    from `src`.
+* `EDA_and_Baseline.ipynb` : A notebook showing EDA and the Baseline model
     
     
 
