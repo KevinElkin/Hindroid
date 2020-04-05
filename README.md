@@ -5,7 +5,7 @@ This project aims to classify malware in android apps by studying the relationsh
 
 ## Usage Instructions
 
-* Using the command `python3 run.py test-project` will test the pipeline on a small subset of data. Currently, this will pull benign applications from the weather catagory and get an equal amount of malware applications to test with. Please note: for testing purposes I will obtain ALL the gz files for the weather catagory (19 gzip files) and then randomly sample a few apps from there for my small test set. simplejson will need to be pip installed if it is not already. 
+* Using the command `python3 run.py test-project` will test the pipeline on a small subset of data. Currently, this will pull benign applications from the weather catagory and get an equal amount of malware applications to test with. Please note: for testing purposes I will obtain ALL the gz files for the weather catagory (19 gzip files) and then randomly sample a few apps from there for my small test set.
 
 ## Description of Contents
 
