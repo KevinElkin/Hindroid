@@ -33,20 +33,23 @@ smali code
 
 '''
 
-'''
-Go back one directory and then return the current working directory
-'''
+
 def findDir():
+    '''
+    Go back one directory and then return the current working directory
+    :returns: Parent Directory 
+    '''
     os.chdir('..')
     return os.getcwd()
 
-'''
-A method that creates the necessary file structure that will be used to
-store the APK downloads
-'''
+
 
 def createDir():
-
+    '''
+    A method that creates the necessary file structure that will be used to
+    store the APK downloads
+    :returns: the path to the created directory
+    '''
     cwd = os.getcwd()
     file = str(cwd) + '/Test_Project'
     file2 = file + '/APK_Downloads/'
@@ -59,43 +62,40 @@ def createDir():
     return file2
 
 
-'''
-A method that obtains all the gz files from the given url
 
-url - the sitemap url for apkpure
-'''
 def getSitemap(url):
-
+    '''
+    A method that obtains all the gz files from the given url
+    :param url: the sitemap url for apkpure
+    :returns: list of all gz files
+    '''
     url = requests.get(url).text
     soup = BeautifulSoup(url, 'lxml')
 
     li = []
-
     for elem in soup.find_all('loc'):
         li.append(elem.text)
 
     return li
 
 
-'''
-A method that returns a dictionary of gz urls based on there catagory.
-the key represents the catagory and the values are a list of urls that
-fall under the given catagory
 
-
-gzlist - the list of gz files obtained from calling getSitemap
-'''
 def gzLinkSort(gzlist):
+    '''
+    A method that returns a dictionary of gz urls based on there catagory.
+    the key represents the catagory and the values are a list of urls that
+    fall under the given catagory
 
+    :param gzlist: the list of gz files obtained from calling getSitemap
+    :returns: dictionary of gz urls based on catagory
+    '''
     firstPart = 'https://apkpure.com/sitemaps/'
     sep = '-'
     sep2 = '.'
-
     gzCat = defaultdict(list)
     links = []
 
     for url in gzlist:
-
         cat = url.split(firstPart, 1)[1]
         if '-' in cat:
             cat = cat.split(sep, 1)[0]
@@ -107,20 +107,19 @@ def gzLinkSort(gzlist):
 
 
 
-'''
-A method that goes through the xml files of the catagories found in the getGzCats
-method and stores all the links in a text file. These links are links that contain
-the page where we can download the apk files. This method is intended to be a
-helper method for getGzCats.
 
-outFile - the xml file of the catagory to be taken in. This will then be searched through
-to find the links coresponding to the download pages of the apk
-
-path - the location you want your xml files to be downloaded to
-
-'''
 def findLocs(outFile, path):
+    '''
+    A method that goes through the xml files of the catagories found in the getGzCats
+    method and stores all the links in a text file. These links are links that contain
+    the page where we can download the apk files. This method is intended to be a
+    helper method for getGzCats.
 
+    :param outFile: the xml file of the catagory to be taken in. This will then be searched through
+    to find the links coresponding to the download pages of the apk
+    :param path: the location you want your xml files to be downloaded to
+    :returns:list of all the urls to download android apps from
+    '''
     file = open(outFile, 'r')
     line = file.readlines()
 
@@ -134,31 +133,25 @@ def findLocs(outFile, path):
     return locs
 
 
-'''
-A method that takes in a dictionary (catagory (key), list of gz url (values))
-and the given catagories you wish to obtain the xml files of. The path specifies where
-the xml files will be downloaded. Do note that the xml files will be inserted into
-a directory with the corresponding name of the catagory
 
-gzDict - a dictionary containing the catagories of gz files and their assosiated links
-
-catagories - the catagories of gz files you want to obtain the xml files for
-
-path - the location you want your xml files to be downloaded to
-
-'''
 def getGzCats(gzDict, catagories, path):
+    '''
+    A method that takes in a dictionary (catagory (key), list of gz url (values))
+    and the given catagories you wish to obtain the xml files of. The path specifies where
+    the xml files will be downloaded. Do note that the xml files will be inserted into
+    a directory with the corresponding name of the catagory
 
+    :param gzDict: a dictionary containing the catagories of gz files and their assosiated links
+    :param catagories: the catagories of gz files you want to obtain the xml files for
+    :param path: the location you want your xml files to be downloaded to
+    '''
     firstPart = 'https://apkpure.com/sitemaps/'
     os.chdir(path)
 
     for cat in catagories:
-
         os.chdir(path)
-
         if not os.path.exists(cat):
             os.makedirs(cat)
-
         newPath = path + str(cat)
         os.chdir(newPath)
         
@@ -174,27 +167,24 @@ def getGzCats(gzDict, catagories, path):
             with open(out, 'wb') as outfile:
                 outfile.write(decompressed_file.read())
 
-
             out2 = str(cat) + '_Links_APK' + '.txt'
-
             apklinks = findLocs(out, path)
 
             with open(out2, 'w') as outfile:
                 outfile.write("\n".join(apklinks))
 
 
-'''
-A method that randomly samples k number of apk urls from
-a specified filename (ex. comics_Links_APK.txt)
 
-filename - the specified txt file to sample from
-
-k - the numebr of samples you wish to obtain for a given
-catagory
-
-'''
 def random_sampler(filename, k):
+    '''
+    A method that randomly samples k number of apk urls from
+    a specified filename (ex. comics_Links_APK.txt)
 
+    :param filename: the specified txt file to sample from
+    :param k: the numebr of samples you wish to obtain for a given
+    catagory
+    :returns: list of randomly sampled urls that will be used to download android apps 
+    '''
     sample = []
     with open(filename, 'rb') as f:
         linecount = sum(1 for line in f)
@@ -212,25 +202,21 @@ def random_sampler(filename, k):
     return sample
 
 
-'''
-Get the link to the downloads page for apk on the main page.
-These links will direct us to the download page.
 
-num - specifies the number of links you wish to obtain
-
-catagories - A list of the catagories of apps you wish to call from
-
-path - the location you want your xml files to be downloaded to
-
-'''
 def getDownloadLinks(catagories, num, path):
+    '''
+    Get the link to the downloads page for apk on the main page.
+    These links will direct us to the download page.
 
-
+    :param num: specifies the number of links you wish to obtain
+    :param catagories: A list of the catagories of apps you wish to call from
+    :param path: the location you want your xml files to be downloaded to
+    :returns: The links to the download page
+    '''
     for cat in catagories:
 
         filename = str(cat) + '_Links_APK.txt'
         newPath = path + str(cat) + '/' + filename
-
         
         randomFiles = random_sampler(newPath, num)
         #For demonstaration purposes grab first n links
@@ -266,43 +252,34 @@ def getDownloadLinks(catagories, num, path):
             except AttributeError as err:
                 #Cannot access file because of scrapping limitation stated 
                 pass
-                
-
 
     return dLinks
 
 
-'''
-A method designed to get the links to download the APK of a given
-android app. These links will download the APK file when entered into
-the browser
 
-num - specifies the number of links you wish to obtain
-
-catagories - A list of the catagories of apps you wish to call from
-
-path - the location you want your xml files to be downloaded to
-
-'''
 def downloadAPK(catagories, num, path):
+    '''
+    A method designed to get the links to download the APK of a given
+    android app. These links will download the APK file when entered into
+    the browser
 
+    :param num: specifies the number of links you wish to obtain
+    :param catagories: A list of the catagories of apps you wish to call from
+    :param path: the location you want your xml files to be downloaded to
+    '''
     listAPK = []
-
     getDownloadLinks(catagories, num, path)
-
+    
     for cat in catagories:
 
         filename = str(cat) + '_Download_Page_Links_APK.txt'
         newPath = path + str(cat) + '/' + filename
-
-
+        
         with open(newPath) as f:
             content = f.readlines()
 
         for site in content:
-
             names = []
-
             url = requests.get(site).text
             soup = BeautifulSoup(url, 'html.parser')
 
@@ -323,18 +300,17 @@ def downloadAPK(catagories, num, path):
 
 
 
-'''
-A method that gets the downloaded apk files from apkpure and
-stores them in their correct catagory directory in APK_Downloads.
-This method then converts the downloaded apk files into smali code
-and stores it in the current catagory directory
 
-catagories - A list of the catagories of apps you wish to call from
-
-path - the location you want your xml files to be downloaded to
-'''
 def getAPK(catagories, path):
+    '''
+    A method that gets the downloaded apk files from apkpure and
+    stores them in their correct catagory directory in APK_Downloads.
+    This method then converts the downloaded apk files into smali code
+    and stores it in the current catagory directory
 
+    :param catagories: A list of the catagories of apps you wish to call from
+    :param path: the location you want your xml files to be downloaded to
+    '''
     for cat in catagories:
 
         filename = str(cat) + '_Download_Links_APK.txt'
@@ -346,12 +322,9 @@ def getAPK(catagories, path):
 
         count = 0
         for link in content:
-
             resp = requests.get(link, stream = True)
             contents = resp.content
-
             name = count
-
             out = os.path.join(catDir, str(cat) + '_' + str(name) +'.apk')
 
             with open( out, "wb" ) as code:
@@ -361,14 +334,14 @@ def getAPK(catagories, path):
 
             count += 1
 
-'''
-A method that solves an issue encountered where a very few directories of apps do not contain
-a smali subdirectory. This method will remove these files from the test data
 
-path - the path to the directory of apps
-'''
 def removeNoSmali(path):
+    '''
+    A method that solves an issue encountered where a very few directories of apps do not contain
+    a smali subdirectory. This method will remove these files from the test data
 
+    :param path: the path to the directory of apps
+    '''
     list_subfolders_with_paths = [f.path for f in os.scandir(path) if f.is_dir()]
 
     for catPath in list_subfolders_with_paths:
