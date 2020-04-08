@@ -19,15 +19,17 @@ from tqdm import tqdm
 
 #------------------------------------------------Matrix Indexing Dictionaries--------------------------------------------------
 
-'''
-A method that will get every API call between all apps present in the dataset. This will be used
-for creating the AMatrix, BMatric, PMatrix and IMatrix implemented in the matrix section.
 
-catDict - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-'''
 def allAPIsDataset(catDict):
+    '''
+    A method that will get every API call between all apps present in the dataset. This will be used
+    for creating the AMatrix, BMatric, PMatrix and IMatrix implemented in the matrix section.
 
+    :param catDict: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :returns: a list of all APIs
+    '''
+    
     #get a list of every possible api call in all the apps and take the set of it.
     print("Finding Indicies for each API....")
     allAPIs = []
@@ -39,15 +41,16 @@ def allAPIsDataset(catDict):
     return allAPIs
 
 
-'''
-A Method that will create a dictionary using the set of all APIs returned in the allAPIsDataset
-method call. This method will allow for easy indexing rows/columns in the matricies created.
 
-jsonFile - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-'''
 def uniqueDict(jsonFile):
+    '''
+    A Method that will create a dictionary using the set of all APIs returned in the allAPIsDataset
+    method call. This method will allow for easy indexing rows/columns in the matricies created.
 
+    :param jsonFile: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :returns: A dictionary of unique indicies for each API
+    '''
     # Make a new dictionary containing unique API and there index
     UniqueIDAPI = {}
     idMaker = 0
@@ -58,15 +61,17 @@ def uniqueDict(jsonFile):
     return UniqueIDAPI
 
 
-'''
-A method that will get every app name present in the dataset. This will be used
-for creating the AMatrix implemented in the matrix section.
 
-catDict - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-'''
 def allApps(catDict):
+    '''
+    A method that will get every app name present in the dataset. This will be used
+    for creating the AMatrix implemented in the matrix section.
 
+    :param catDict: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :returns: A list of all possible app names in the dataset 
+    '''
+    
     #get all the possible app names
     allApps = []
     print("Finding Indicies for each App....")
@@ -75,15 +80,16 @@ def allApps(catDict):
     return allApps
 
 
-'''
-A Method that will create a dictionary using all the app names returned in the allApps
-method call. This method will allow for easy indexing rows/columns in the matricies created.
 
-jsonFile - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-'''
 def UniqueApps(jsonFile):
+    '''
+    A Method that will create a dictionary using all the app names returned in the allApps
+    method call. This method will allow for easy indexing rows/columns in the matricies created.
 
+    :param jsonFile: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :returns: A dictionary of unique indicies for each app
+    '''
     UniqueIDApp = {}
     idMakerApp = 0
 
@@ -98,19 +104,18 @@ def UniqueApps(jsonFile):
 
 
 
-'''
-Creates the A Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
-description of the A MatrixA
 
-catDict - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-
-UniqueIDAPI - A dictionary that contains APIs as keys and an index as a value
-
-UniqueIDApp - A dictionary that contains App Names as keys and an index as a value
-'''
 def aMatrixSparse(catDict, UniqueIDAPI, UniqueIDApp):
+    '''
+    Creates the A Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
+    description of the A MatrixA
 
+    :param catDict: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :param UniqueIDAPI: A dictionary that contains APIs as keys and an index as a value
+    :param UniqueIDApp: A dictionary that contains App Names as keys and an index as a value
+    :returns: The A-Matrix
+    '''
     appIdxRows = []
     apiIdxCols = []
     data = []
@@ -125,17 +130,17 @@ def aMatrixSparse(catDict, UniqueIDAPI, UniqueIDApp):
     return sparse.coo_matrix((data, (appIdxRows, apiIdxCols)))
 
 
-'''
-Creates the B Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
-description of the A MatrixB
 
-catDict - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-
-UniqueIDAPI - A dictionary that contains APIs as keys and an index as a value
-'''
 def bMatrixSparse(catDict, UniqueIDAPI):
+    '''
+    Creates the B Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
+    description of the A MatrixB
 
+    :param catDict: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :param UniqueIDAPI: A dictionary that contains APIs as keys and an index as a value
+    :returns: The B-Matrix
+    '''
     appIdxRows = []
     apiIdxCols = []
     data = []
@@ -160,19 +165,20 @@ def bMatrixSparse(catDict, UniqueIDAPI):
                         data.append(1)
     return sparse.coo_matrix((data, (appIdxRows, apiIdxCols)))
 
-'''
-Creates the P Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
-description of the A MatrixP
 
-catDict - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-
-UniqueIDAPI - A dictionary that contains APIs as keys and an index as a value
-'''
 def pMatrixSparse(catDict, UniqueIDAPI):
+    '''
+    Creates the P Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
+    description of the A MatrixP
 
-#     f = open(jsonFile)
-#     catDict = json.load(f)
+    :param catDict: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :param UniqueIDAPI: A dictionary that contains APIs as keys and an index as a value
+    :returns: The P-Matrix
+    '''
+    
+    f = open(jsonFile)
+    catDict = json.load(f)
 
     appIdxRows = []
     apiIdxCols = []
@@ -199,17 +205,17 @@ def pMatrixSparse(catDict, UniqueIDAPI):
     return sparse.coo_matrix((data, (appIdxRows, apiIdxCols)))
 
 
-'''
-Creates the I Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
-description of the I MatrixA
 
-catDict - a json file that has been written to disk containg the data structure created
-in the createDataStructure method call
-
-UniqueIDAPI - A dictionary that contains APIs as keys and an index as a value
-'''
 def iMatrixSparse(catDict, UniqueIDAPI):
+    '''
+    Creates the I Matrix using the Matrix Indexing Dictionaries - refer to written report for detailed
+    description of the I MatrixA
 
+    :param catDict: a json file that has been written to disk containg the data structure created
+    in the createDataStructure method call
+    :param UniqueIDAPI: A dictionary that contains APIs as keys and an index as a value
+    :returns: The I-Matrix
+    '''
     appIdxRows = []
     apiIdxCols = []
     data = []
